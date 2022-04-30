@@ -5,7 +5,7 @@
     data-widget="widget-otp-parent"
   >
     <input
-      v-for="(count, index) in 6"
+      v-for="(count, index) in childs"
       :key="index"
       :ref="`widget-otp-input-${index}`"
       type="number"
@@ -15,7 +15,6 @@
       maxlength="1"
       autocomplete="off"
       spellcheck="false"
-      placeholder="..."
       inputmode="decimal"
       @keyup="checkEvent"
       @input="({ target }) => (target.value = String(target.value)[0] || '')"
@@ -29,19 +28,24 @@ import {
   ref,
   watch,
   onMounted,
-  getCurrentInstance,
-  Ref,
+  // getCurrentInstance,
+  toRef
 } from "vue";
 
 export default defineComponent({
   name: "OtpInput",
   emits: ["code"],
+  props:{
+    childs: {
+        type: Number,
+        default: 6
+    }
+  },
   setup(props, context) {
-    void props;
-
-    const otpWidget = getCurrentInstance(); void otpWidget
+    //const otpWidget = getCurrentInstance();
     const parent = ref(null);
     const code = ref([]); //Ref<number[]>
+    const countInput = toRef(props, 'childs')
 
     const targetIndex = (elm) => [...elm.parentNode.children].indexOf(elm);
 
@@ -69,7 +73,7 @@ export default defineComponent({
     watch(code, () => {
       const codeLength = code.value.length;
       const sendCode = code.value.join("");
-      if (codeLength === 6) context.emit("code", sendCode);
+      if (codeLength === countInput.value) context.emit("code", sendCode);
       else if (codeLength === 0) context.emit("code", sendCode);
     }, {deep: true});
 
@@ -82,6 +86,7 @@ export default defineComponent({
       checkEvent,
       parent,
       code,
+      countInput
     };
   },
 });
