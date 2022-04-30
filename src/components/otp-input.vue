@@ -4,21 +4,37 @@
     class="widget-otp-parent otp-gap-16"
     data-widget="widget-otp-parent"
   >
-    <input
-      v-for="(count, index) in childs"
-      :key="index"
-      :ref="`widget-otp-input-${index}`"
-      type="number"
-      min="0"
-      max="9"
-      step="1"
-      maxlength="1"
-      autocomplete="off"
-      spellcheck="false"
-      inputmode="decimal"
-      @keyup="checkEvent"
-      @input="({ target }) => (target.value = String(target.value)[0] || '')"
-    />
+    <template v-if="type === 'number'">
+      <input
+        v-for="(count, index) in childs"
+        :key="index"
+        :ref="`widget-otp-input-${index}`"
+        type="number"
+        min="0"
+        max="9"
+        step="1"
+        maxlength="1"
+        autocomplete="off"
+        spellcheck="false"
+        inputmode="decimal"
+        @keyup="checkEvent"
+        @input="clearedToFocus"
+      />
+    </template>
+
+    <template v-if="type === 'text'">
+      <input
+        v-for="(count, index) in childs"
+        :key="index"
+        :ref="`widget-otp-input-${index}`"
+        type="text"
+        maxlength="1"
+        autocomplete="off"
+        spellcheck="false"
+        @keyup="checkEvent"
+        @input="clearedToFocus"
+      />
+    </template>
   </div>
 </template>
 
@@ -39,31 +55,40 @@ export default defineComponent({
     childs: {
         type: Number,
         default: 6
+    },
+    type: {
+        type: String,
+        default: 'number'
     }
   },
   setup(props, context) {
     //const otpWidget = getCurrentInstance();
     const parent = ref(null);
-    const code = ref([]); //Ref<number[]>
+    const code = ref([]);
     const countInput = toRef(props, 'childs')
+    const type = toRef(props, 'type')
 
     const targetIndex = (elm) => [...elm.parentNode.children].indexOf(elm);
+    const clearedToFocus = ({ target }) => (target.value = String(target.value)[0] || '');
 
     const checkEvent = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       //
       const that = event.target;
       const index = targetIndex(that);
-      const isNumber = /^\d$/i.test(event.key);
+      const isNumber = /^\d$/i.test(event.key) && type.value === 'number';
+      const isText = /(^\D)|(^\d)$/i.test(event.key) && type.value === 'text';
       const nextSibling = parent.value.children[index + 1];
       const prevSibling = parent.value.children[index - 1];
 
-      if (event.key !== "Backspace" && isNumber) {
-        code.value.push(Number(that.value));
+      if (event.key !== "Backspace" && (isNumber || isText)) {
+        code.value.push(String(that.value));
         if(that.value) that.classList.add('hasvalue');
         if (nextSibling) nextSibling.focus();
       } else if (event.key === "Backspace") {
         that.value = "";
-        code.value.splice(code.value.indexOf(Number(that.value), 1));
+        code.value.splice(code.value.indexOf(String(that.value), 1));
         that.classList.remove('hasvalue');
         if (prevSibling) prevSibling.focus();
       }
@@ -86,7 +111,8 @@ export default defineComponent({
       checkEvent,
       parent,
       code,
-      countInput
+      countInput,
+      clearedToFocus
     };
   },
 });
@@ -123,8 +149,13 @@ div[data-widget="widget-otp-parent"] {
     margin: 0;
   }
 
-  input[type="number"] {
-    -moz-appearance: textfield; //Firefox
+  input {
+    &[type="number"] {
+      -moz-appearance: textfield; //Firefox
+    }
+    &[type="text"] {
+      max-width: 24px;
+    }
     border: 0;
     outline: none;
     background: transparent;
