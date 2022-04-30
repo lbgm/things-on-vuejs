@@ -108,6 +108,7 @@ export default defineComponent({
 div[data-widget="widget-otp-parent"] {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   border: 0;
 
   /* Chrome, Safari, Edge, Opera */
