@@ -1,5 +1,5 @@
 # vuejs
-My own vuejs inwork
+VueJS components
 
 ## Project setup
 ```
