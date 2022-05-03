@@ -184,7 +184,7 @@ input {
   line-height: 26px;
 }
 
-input :focus {
+input:focus {
   border-color: #4760b9;
 }
 
