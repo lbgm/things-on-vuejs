@@ -19,6 +19,7 @@
         inputmode="decimal"
         @keyup="checkEvent"
         @input="clearedToFocus"
+        @paste="codePasted"
       />
     </template>
 
@@ -33,6 +34,7 @@
         spellcheck="false"
         @keyup="checkEvent"
         @input="clearedToFocus"
+        @paste="codePasted"
       />
     </template>
   </div>
@@ -102,6 +104,18 @@ export default defineComponent({
       else if (codeLength === 0) context.emit("code", sendCode);
     }, {deep: true});
 
+    const codePasted = (e) => {
+      const codep = String(e.clipboardData.getData('Text')).trim();
+      const ins = parent.value.querySelectorAll("input");
+      if(codep && /^[0-9]*$/.test(codep) && codep.length === 6) {
+        ins.forEach((node, index)=>{
+          node.value = codep[index];
+          code.value.push(String(codep[index]));
+          node.focus();
+        })
+      }
+    }
+
     onMounted(() => {
       //
       //console.log(otpWidget.ctx.$refs);
@@ -112,7 +126,8 @@ export default defineComponent({
       parent,
       code,
       countInput,
-      clearedToFocus
+      clearedToFocus,
+      codePasted
     };
   },
 });
