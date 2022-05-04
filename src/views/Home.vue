@@ -3,7 +3,7 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" /> -->
     {{ otp }}
-    <otp-input-v2 @code="otp = $event" :childs="6" type="text" />
+    <otp-input @code="otp = $event" :childs="6" />
 
     <range-input />
   </div>

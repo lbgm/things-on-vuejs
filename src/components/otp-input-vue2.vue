@@ -154,7 +154,8 @@ div[data-widget="widget-otp-parent"] {
 @-moz-document url-prefix()/*firefox*/
 {
   input[type="number"] {
-    max-width: 24px;
+    max-width: 52px;
+    padding: 12px 0;
   }
 }
 
@@ -170,7 +171,8 @@ input[type="number"] {
 }
 
 input[type="text"] {
-  max-width: 24px;
+  max-width: 52px;
+  padding: 12px 0;
 }
 
 input {

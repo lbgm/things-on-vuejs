@@ -153,8 +153,9 @@ export default defineComponent({
 
 @-moz-document url-prefix()/*firefox*/
 {
-  input[type="number"]{
-    max-width: 24px;
+  input[type="number"] {
+    max-width: 52px;
+    padding: 16px 0;
   }
 }
 
@@ -176,7 +177,8 @@ div[data-widget="widget-otp-parent"] {
       -moz-appearance: textfield; //Firefox
     }
     &[type="text"] {
-      max-width: 24px;
+      max-width: 52px;
+      padding: 16px 0;
     }
     border: 0;
     outline: none;
