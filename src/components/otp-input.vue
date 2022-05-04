@@ -151,6 +151,13 @@ export default defineComponent({
   }
 }
 
+@-moz-document url-prefix()/*firefox*/
+{
+  input[type="number"]{
+    max-width: 24px;
+  }
+}
+
 div[data-widget="widget-otp-parent"] {
   display: flex;
   justify-content: center;

@@ -151,6 +151,13 @@ div[data-widget="widget-otp-parent"] {
   border: 0;
 }
 
+@-moz-document url-prefix()/*firefox*/
+{
+  input[type="number"] {
+    max-width: 24px;
+  }
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
