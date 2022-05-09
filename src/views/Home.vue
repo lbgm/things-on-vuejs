@@ -3,9 +3,9 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" /> -->
     {{ otp }}
-    <otp-input @code="otp = $event" :childs="6" />
+    <!-- <otp-input @code="otp = $event" :childs="6" /> -->
 
-    <range-input />
+    <range-input @range="otp" />
   </div>
 </template>
 
