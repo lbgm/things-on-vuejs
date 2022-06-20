@@ -107,7 +107,7 @@ export default defineComponent({
     const codePasted = (e) => {
       const codep = String(e.clipboardData.getData('Text')).trim();
       const ins = parent.value.querySelectorAll("input");
-      if(codep && /^[0-9]*$/.test(codep) && codep.length === 6) {
+      if(codep && /^[0-9]*$/.test(codep) && codep.length === countInput.value) {
         ins.forEach((node, index)=>{
           node.value = codep[index];
           code.value.push(String(codep[index]));

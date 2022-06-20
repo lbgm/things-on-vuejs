@@ -95,7 +95,7 @@ export default {
     codePasted (e) {
       const codep = String(e.clipboardData.getData('Text')).trim();
       const ins = this.$refs.parent.querySelectorAll("input");
-      if(codep && /^[0-9]*$/.test(codep) && codep.length === 6) {
+      if(codep && /^[0-9]*$/.test(codep) && codep.length === this.childs) {
         ins.forEach((node, index)=>{
           node.value = codep[index];
           this.code.push(String(codep[index]));
